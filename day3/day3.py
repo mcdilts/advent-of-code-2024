@@ -1,7 +1,7 @@
 import re
 #variables
-pattern = "mul\(\d{1,3},\d{1,3}\)"
-dopattern = "do\((.*?)don't\)"
+pattern = r"mul\(\d{1,3},\d{1,3}\)"
+dopattern = r"do\((.*?)don't\)"
 matches = []
 entries = []
 domatches = []
@@ -21,9 +21,9 @@ for match in matches:
 
 domatches = list(re.finditer(dopattern, plaintext, re.DOTALL))
 
-for match in domatches:
+for domatch in domatches:
 
-    validmatches = match.group(1).strip()
+    validmatches = domatch.group(1).strip()
 
     doentryvalues = re.findall(pattern, validmatches)
 
@@ -32,10 +32,9 @@ for match in domatches:
         result = values[0] * values[1]
         doentries.append(result)
 
-if lastend < len(plaintext):
-    dontentries.append(plaintext[lastend:].strip())
 
 print(doentries)
+print(len(domatches))
 print(sum(doentries))
 print(sum(entries))
 
