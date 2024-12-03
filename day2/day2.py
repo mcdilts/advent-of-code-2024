@@ -2,8 +2,11 @@
 entries = []
 allascendingordescending = []
 allunder3 = []
-only1badvalue = []
+spreadErrorCount = 0
+spreadsWithErrors = []
 spreadsWithOneError = []
+
+
 #make the list
 
 with open('day2\day2_input.txt', 'r') as file:
@@ -26,13 +29,28 @@ for item in allascendingordescending:
     spreads = [abs(item[i+1] - item[i]) for i in range(len(item) - 1)]
     if all(spread <= 3 for spread in spreads) and all(spread >= 1 for spread in spreads):
         allunder3.append(item)
-print(len(allunder3))
 
-#now do the same thing, but let only 1 value be bad
+
+#now do the same thing, get all the ones with errors
 for item in allascendingordescending:
     spreads = [abs(item[i+1] - item[i]) for i in range(len(item) - 1)]
-    spreadErrorCount = sum(1 for spread in spreads if 1 <= spread <= 3)
-    if spreadErrorCount <= 1:
+    if not all(1 <= spread <=3 for spread in spreads):
+        spreadsWithErrors.append(item)
+
+#now get the ones with only 1 error
+for item in spreadsWithErrors:
+    spreads = [abs(item[i+1] - item[i]) for i in range(len(item) - 1)]
+    errorCount = sum(1 for spread in spreads if spread < 1 or spread > 3)
+    if errorCount <= 1:
         spreadsWithOneError.append(item)
 
+
+#count of all
+print(len(entries))
+#count of under 3
+print(len(allunder3))
+#count of with errors
+print(len(spreadsWithErrors))
+#count of one error
 print(len(spreadsWithOneError))
+
