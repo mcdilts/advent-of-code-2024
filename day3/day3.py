@@ -1,13 +1,12 @@
 import re
 #variables
 pattern = r"mul\(\d{1,3},\d{1,3}\)"
-dopattern = r"do\((.*?)don't\)"
+dopattern = r"(do\(\)|don't\(\))"
 matches = []
 entries = []
 domatches = []
 doentries = []
-dontentries = []
-lastend = 0
+predoentries = []
 
 with open('day3\day3_input.txt', 'r') as file:
     plaintext = file.read()
@@ -19,23 +18,32 @@ for match in matches:
     result = values[0] * values[1]
     entries.append(result)
 
-domatches = list(re.finditer(dopattern, plaintext, re.DOTALL))
+blocks = re.split(dopattern, plaintext)
 
-for domatch in domatches:
+collect = True
+firstBlockDone = False
 
-    validmatches = domatch.group(1).strip()
+for block in blocks:
+    block = block.strip()
 
-    doentryvalues = re.findall(pattern, validmatches)
+    if block == "do()":
+        enabled = True
+        firstBlockDone = True
+    elif block == "don't()":
+        enabled = False
+        firstBlockDone = True
+    else:
+        if not firstBlockDone or enabled:
+            domatches = re.findall(pattern, block)
+            for match in domatches:
+                values = tuple(map(int, re.findall(r"\d+", match)))
+                result = values[0] * values[1]
+                if not firstBlockDone:
+                    predoentries.append(result)
+                else:
+                    doentries.append(result)
 
-    for value in doentryvalues:
-        values = tuple(map(int, re.findall(r"\d+", value)))
-        result = values[0] * values[1]
-        doentries.append(result)
-
-
-print(doentries)
-print(len(domatches))
-print(sum(doentries))
+print(sum(doentries + predoentries))
 print(sum(entries))
 
 
