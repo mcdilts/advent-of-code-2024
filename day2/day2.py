@@ -10,7 +10,7 @@ spreadsWithOneErrorCorrect = []
 
 #make the list
 
-with open('day2\day2_input.txt', 'r') as file:
+with open('day2\input.txt', 'r') as file:
     plaintext = file.read()
 
 for line in plaintext.strip().split("\n"):

@@ -4,7 +4,7 @@ rightlist = []
 differences = []
 similarities = []
 #make the lists
-with open('day1\day1_input.txt', 'r') as file:
+with open('day1\input.txt', 'r') as file:
     plaintext = file.read()
 
 

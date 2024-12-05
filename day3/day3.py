@@ -8,7 +8,7 @@ domatches = []
 doentries = []
 predoentries = []
 
-with open('day3\day3_input.txt', 'r') as file:
+with open('day3\input.txt', 'r') as file:
     plaintext = file.read()
 
 matches = re.findall(pattern, plaintext)
